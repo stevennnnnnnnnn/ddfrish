@@ -10,11 +10,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
-from pathlib import Path
+from pathlib import Path, PurePath
+import sys
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+# sys.path.insert(0, PurePath.joinpath(BASE_DIR, 'apps'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -29,7 +30,7 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-
+# 增加了注册应用
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -37,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'tinymce',
     'apps.user.apps.UserConfig',
     'apps.cart.apps.CartConfig',
     'apps.goods.apps.GoodsConfig',
@@ -77,14 +79,14 @@ WSGI_APPLICATION = 'ddfrish.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-
+# 修改自用的数据库
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'ddfrish',
-        'USER': 'root',
-        'PASSWORD': 'mysql',
-        'HOST': 'localhost',
+        'NAME': 'xxx',
+        'USER': 'xxx',
+        'PASSWORD': 'xxx',
+        'HOST': 'xxx',
         'PORT': 3306,
     }
 }
@@ -128,8 +130,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
-
-
 
 try:
     from local_settings import *
