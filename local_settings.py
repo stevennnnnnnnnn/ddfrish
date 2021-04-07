@@ -31,3 +31,12 @@ TINYMCE_DEFAULT_CONFIG = {
     'width': 600,
     'height': 400
 }
+
+# 126 email
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.126.com'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = 'stevennnn@126.com'  # 发送邮件的邮箱
+EMAIL_HOST_PASSWORD = 'LYTKLSNPDNONKKLL'  # qq邮箱授权码
+# EMAIL_USE_TLS = True  # 与SMTP服务器通信时，是否启动TLS链接(安全链接)
+EMAIL_FROM = '天天生鲜<stevennnn@126.com>'  # EMAIL_FROM 和 EMAIL_HOST_USER必须一样
