@@ -16,7 +16,7 @@ class User(AbstractUser, BaseModel):
 class AddressManage(models.Manager):
     """地址模型管理类"""
 
-    def get_defualt_addr(self, user):
+    def get_default_addr(self, user):
         """获取用户默认收货地址"""
         try:
             addr = self.get(user=user, is_default=True)
@@ -44,7 +44,7 @@ class Address(BaseModel):
     is_default = models.BooleanField(default=False, verbose_name='是否默认')
 
     # 自定义一个管理类，方便后台管理
-    object = AddressManage()
+    objects = AddressManage()
 
     class Meta:
         db_table = 'ddf_address'

@@ -1,15 +1,22 @@
 {# 用户中心3页面 #}
-{% extends 'base.html' %}
+{% extends 'base_no_cart.html' %}
 {% block title %}天天生鲜-用户中心{% endblock title %}
+{% block pagename %}用户中心{% endblock pagename %}
 {# 网站主题内容块 #}
 {% block body %}
-    <div class="left_menu_con clearfix">
+    <div class="main_con clearfix">
+        <div class="left_menu_con clearfix">
 			<h3>用户中心</h3>
 			<ul>
-				<li><a href="/user/user_center_info" class="active">· 个人信息</a></li>
-				<li><a href="/user/user_center_order">· 全部订单</a></li>
-				<li><a href="/user/user_center_site">· 收货地址</a></li>
+				<li><a href="{% url 'user:info' %}"
+                       {% if page == 'info' %}class="active"{% endif %}>· 个人信息</a></li>
+				<li><a href="{% url 'user:order' %}"
+                    {% if page == 'order' %}class="active"{% endif %}>· 全部订单</a></li>
+				<li><a href="{% url 'user:address' %}"
+                    {% if page == 'address' %}class="active"{% endif %}>· 收货地址</a></li>
 			</ul>
 		</div>
-    {% block right_content %}{% endblock right_content %}
+        {# 用户中心右侧内容块 #}
+        {% block right_content %}{% endblock right_content %}
+    </div>
 {% endblock body %}

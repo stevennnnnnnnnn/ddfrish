@@ -42,6 +42,9 @@ SESSION_CACHE_ALIAS = "default"
 AUTH_USER_MODEL = 'user.User'
 # 设置authenticate不关联is_activate
 AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.AllowAllUsersModelBackend']
+# 配置默认的登录URL地址
+LOGIN_URL = '/user/login'
+
 
 # tinymce富文本编辑器参数
 TINYMCE_DEFAULT_CONFIG = {
