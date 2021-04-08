@@ -1,22 +1,17 @@
 from django.shortcuts import render, redirect, HttpResponse
 import re
-from apps.user.models import User, Address
+from apps.user.models import User
 from django.urls import reverse
 from django.views.generic import View
 from django.conf import settings
-
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from itsdangerous import SignatureExpired
 from celery_tasks.task import send_emial_active_register
-
-from django.core.mail import send_mail
-
-
-# Create your views here.
+from django.contrib.auth import authenticate, login, logout
 
 
 class RegisterView(View):
-    """register view"""
+    """"""
     def get(self, request):
         """显示注册页面"""
         return render(request, 'register.html')
@@ -99,20 +94,41 @@ class ActivateView(View):
 class LoginView(View):
     """登录视图"""
     def get(self, request):
-        return render(request, 'login.html')
+        if 'username' in request.COOKIES:
+            username = request.COOKIES.get('username')
+            checked = 'checked'
+        else:
+            username = ''
+            checked = ''
+        return render(request, 'login.html', {'username': username, 'checked': checked})
 
     def post(self, request):
         username = request.POST.get('username')
         pwd = request.POST.get('pwd')
 
-        if all([username, pwd]):
+        if not all([username, pwd]):  # 检查要素完整性
             return render(request, 'login.html', {'errmsg': '请输入完整的账号密码！'})
 
-        try:
+        try:  # 检查账号是否存在
             User.objects.get(username=username)
-        except User.DoesNotExist:
+        except:
             return render(request, 'login.html', {'errmsg': '账号不存在！'})
-        except Exception as ret:
-            return HttpResponse('发生未知错误，请重试...', ret)
+
+        # 检查账号密码是否正确
+        user = authenticate(username=username, password=pwd)
+        if user is not None:
+            login(request, user)  # 账户验证正确，记录用户登录状态
+
+            response = redirect(reverse('goods:index'))
+            remember = request.POST.get('remember')
+            if remember == 'on':  # 勾选记住用户名，则设置cookie
+                response.set_cookie('username', username, max_age=24*3600)
+            else:
+                response.delete_cookie(username)
+            return response
+
+        else:
+            return render(request, 'login.html', {'errmsg': '账号或密码错误！'})
+
 
 

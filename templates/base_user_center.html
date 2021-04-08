@@ -1,0 +1,15 @@
+{# 用户中心3页面 #}
+{% extends 'base.html' %}
+{% block title %}天天生鲜-用户中心{% endblock title %}
+{# 网站主题内容块 #}
+{% block body %}
+    <div class="left_menu_con clearfix">
+			<h3>用户中心</h3>
+			<ul>
+				<li><a href="/user/user_center_info" class="active">· 个人信息</a></li>
+				<li><a href="/user/user_center_order">· 全部订单</a></li>
+				<li><a href="/user/user_center_site">· 收货地址</a></li>
+			</ul>
+		</div>
+    {% block right_content %}{% endblock right_content %}
+{% endblock body %}

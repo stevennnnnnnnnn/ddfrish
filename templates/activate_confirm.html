@@ -1,10 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>激活确认</title>
-</head>
-<body>
-    {{ confirm }} <a href="/user/login">点击跳转登录</a>
-</body>
-</html>
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}天天生鲜-登录{% endblock title %}
+{% block topfiles %}
+{% endblock topfiles %}
+
+{% block search_bar %}{% endblock search_bar %}
+
+{# 网站主题内容块 #}
+{% block body %}
+    <p>{{ confirm }} 还有<span id="sp">5</span>秒跳转到首页...</p>
+    <a href="/">如未自动跳转请点此</a>
+{% endblock body %}
