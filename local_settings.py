@@ -45,6 +45,10 @@ AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.AllowAllUsersModelBacke
 # 配置默认的登录URL地址
 LOGIN_URL = '/user/login'
 
+# fastdfs设置
+FDFS_CLIENT_CONF = './utils/client.conf'
+FDFS_STORAGE_URL = 'http://192.168.65.129:80'  # 默认使用nginx
+DEFAULT_FILE_STORAGE = 'utils.fdfs_storage.FdfsStorage'
 
 # tinymce富文本编辑器参数
 TINYMCE_DEFAULT_CONFIG = {
