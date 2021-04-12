@@ -10,12 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
-from pathlib import Path, PurePath
-import sys
+from pathlib import Path
+import sys, os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-# sys.path.insert(0, PurePath.joinpath(BASE_DIR, 'apps'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -39,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'tinymce',
+    'haystack',
     'apps.user.apps.UserConfig',
     'apps.cart.apps.CartConfig',
     'apps.goods.apps.GoodsConfig',
@@ -114,9 +114,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'zh-hans'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
@@ -130,6 +130,94 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
+
+# -----------------------------------------------------------------------------
+# 搜索框架haystack配置
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        # use whoosh engine
+        # 'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+        'ENGINE': 'haystack.backends.whoosh_cn_backend.WhooshEngine',
+        # Index file path
+        'PATH': os.path.join(BASE_DIR, 'whoosh_index'),
+    }
+}
+
+
+# Celery相关配置
+# 配置redis作为broker消息代理
+broker_url = 'redis://ip:port/database_id'
+result_backend = 'redis://ip:port/database_id'
+result_backend_transport_options = {'visibility_timeout': 18000}  # 5 hours
+timezone = 'Asia/Shanghai'
+# 更多参数：https://docs.celeryproject.org/en/stable/userguide/configuration.html
+
+
+# 配置cache
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://ip:port/database_id",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
+
+
+# 配置session
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_CACHE_ALIAS = "default"
+
+
+# django自带模块设置
+# 系统默认的用户验证类为：’auth.User’
+# 修改用户验证类为自定义：‘user.User’
+AUTH_USER_MODEL = 'user.User'
+# 设置authenticate不关联is_activate
+AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.AllowAllUsersModelBackend']
+# 配置默认的登录URL地址
+LOGIN_URL = '/user/login'
+
+
+# fastdfs设置
+FDFS_CLIENT_CONF = './utils/client.conf'
+FDFS_STORAGE_URL = 'http://ip:port'  # nginx服务器
+DEFAULT_FILE_STORAGE = 'utils.fdfs_storage.FdfsStorage'
+
+
+# tinymce富文本编辑器参数
+TINYMCE_DEFAULT_CONFIG = {
+    'theme': 'silver',
+    'width': 600,
+    'height': 400,
+}
+
+
+# 126 email
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.126.com'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = 'your_email_address'  # 发送邮件的邮箱
+EMAIL_HOST_PASSWORD = 'token'  # 邮箱授权码
+# EMAIL_USE_TLS = True  # 与SMTP服务器通信时，是否启动TLS链接(安全链接)
+EMAIL_FROM = '天天生鲜<your_email_address>'  # EMAIL_FROM 和 EMAIL_HOST_USER必须一样
+
+
+# 支付宝沙箱APP_ID
+ALIPAY_APP_ID = 'your_alipay_app_id'
+# 支付宝网站回调url地址
+ALIPAY_APP_NOTIFY_URL = None
+# 支付宝同步return_url地址
+ALIPAY_APP_RETURN_URL = 'http://127.0.0.1:8000/order/check'
+# 网站私钥文件路径
+APP_PRIVATE_KEY = os.path.join(BASE_DIR, 'utils/app_private_key.pem')
+# 支付宝公钥文件路径
+ALIPAY_PUBLIC_KEY = os.path.join(BASE_DIR, 'utils/alipay_public_key.pem')
+# 支付宝支付的开发模式
+ALIPAY_DEBUG = True
+# 支付宝沙箱支付网关地址
+ALIPAY_GATEWAY_URL = 'https://openapi.alipaydev.com/gateway.do?'
 
 
 try:

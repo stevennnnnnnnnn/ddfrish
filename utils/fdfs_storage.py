@@ -1,5 +1,5 @@
 from django.core.files.storage import Storage
-from fdfs_client.client import Fdfs_client
+from fdfs_client.client import Fdfs_client, get_tracker_conf
 from django.conf import settings
 
 
@@ -31,7 +31,7 @@ class FdfsStorage(Storage):
         :param content: 包含上传文件内容的File对象
         :param max_length:
         """
-
+        # trackers = get_tracker_conf(self.tracker_conf)
         client = Fdfs_client(self.tracker_conf)
         # res = client.upload_by_buffer(content.read())
         res = client.upload_appender_by_buffer(content.read())
@@ -39,7 +39,7 @@ class FdfsStorage(Storage):
             # 上传失败
             raise Exception('上传失败')
         filename = res.get('Remote file_id').split('/', 1)[1]
-        return filename
+        return '/' + filename
 
     def exists(self, name):
         return False

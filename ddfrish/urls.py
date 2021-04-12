@@ -18,7 +18,8 @@ from django.urls import path, re_path, include
 
 urlpatterns = [
     path('admin', admin.site.urls),
-    path('tinymce/', include('tinymce.urls')),
+    path('tinymce/', include(('tinymce.urls', 'tinymce'), namespace='tinymce')),  # 富文本编辑器
+    path('search/', include(('haystack.urls', 'haystack'), namespace='haystack')),  # 全文检索框架
     path('user/', include(('apps.user.urls', 'user'), namespace='user')),
     path('cart/', include(('apps.cart.urls', 'cart'), namespace='cart')),
     path('order/', include(('apps.order.urls', 'order'), namespace='order')),
