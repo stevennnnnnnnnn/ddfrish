@@ -1,4 +1,36 @@
-django~=3.1
-itsdangerous~=1.1.0
-pymysql~=1.0.2
-celery~=5.0.5
+amqp==5.0.6
+anyjson==0.3.3
+asgiref==3.2.10
+billiard==3.6.4.0
+celery==5.0.5
+certifi==2020.12.5
+cffi @ file:///tmp/build/80754af9/cffi_1613246951236/work
+click==7.1.2
+click-didyoumean==0.0.3
+click-plugins==1.1.1
+click-repl==0.1.6
+cryptography @ file:///tmp/build/80754af9/cryptography_1616767007030/work
+Django==3.1
+django-haystack==3.0
+django-redis==4.12.1
+django-redis-sessions==0.6.2
+django-tinymce==3.3.0
+fdfs-client-py3==1.0.0
+itsdangerous==1.1.0
+jieba==0.42.1
+kombu==5.0.2
+Pillow==8.2.0
+prompt-toolkit==3.0.18
+psycopg2 @ file:///tmp/build/80754af9/psycopg2_1612298595717/work
+pycparser @ file:///tmp/build/80754af9/pycparser_1594388511720/work
+pycryptodomex==3.9.4
+PyMySQL @ file:///tmp/build/80754af9/pymysql_1610482864615/work
+pyOpenSSL==19.1.0
+python-alipay-sdk==3.0.1
+pytz @ file:///tmp/build/80754af9/pytz_1612215392582/work
+redis==3.5.3
+six==1.15.0
+sqlparse @ file:///tmp/build/80754af9/sqlparse_1602184451250/work
+vine==5.0.0
+wcwidth==0.2.5
+Whoosh==2.7.4

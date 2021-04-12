@@ -15,6 +15,6 @@ media/
 !*/migrations/__init__.py
 
 # local setiings
-local_settings.py
-utils/app_private_key.pem
-utils/alipay_public_key.pem
+# local_settings.py
+# utils/app_private_key.pem
+# utils/alipay_public_key.pem
